@@ -98,11 +98,10 @@
 <script>
   const checkboxes = [...document.querySelectorAll('[type="checkbox"]')];
   let lastClicked = undefined;
-  let shift = false;
 
-  function processClick(position) {
+  function processClick(position, e) {
     if (!this.checked) return;
-    if (shift && lastClicked !== undefined) {
+    if (e.shiftKey && lastClicked !== undefined) {
       const [start, end] = [lastClicked, position].sort();
       checkboxes.slice(start, end).forEach(checkbox => checkbox.checked = true);
       lastClicked = undefined;
@@ -114,16 +113,6 @@
   checkboxes.forEach((checkbox, position) => {
     checkbox.addEventListener('click', processClick.bind(checkbox, position));
   });
-  document.addEventListener('keydown', e => {
-    if (e.key === "Shift") {
-      shift = true;
-    }
-  });
-  document.addEventListener('keyup', e => {
-    if (e.key === "Shift") {
-      shift = false;
-    }
-  })
 </script>
 </body>
 </html>
