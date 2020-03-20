@@ -100,11 +100,12 @@
   let lastClicked = undefined;
 
   function processClick(position, e) {
-    if (!this.checked) return;
-    if (e.shiftKey && lastClicked !== undefined) {
-      const [start, end] = [lastClicked, position].sort();
-      checkboxes.slice(start, end).forEach(checkbox => checkbox.checked = true);
+    if (!this.checked) {
       lastClicked = undefined;
+    } else if (e.shiftKey && lastClicked !== undefined) {
+      const [start, end] = [lastClicked, position].sort((a, b) => a - b);
+      checkboxes.slice(start, end).forEach(checkbox => checkbox.checked = true);
+      lastClicked = position;
     } else {
       lastClicked = position;
     }
